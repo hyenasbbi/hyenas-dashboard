@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Hyenas | Sales Tracker</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080c14;
+      --panel: #0d1420;
+      --panel2: #111927;
+      --line: #1e2d45;
+      --cyan: #00e5ff;
+      --cyan2: #00b8d4;
+      --purple: #b388ff;
+      --purple2: #7c4dff;
+      --green: #00e676;
+      --yellow: #ffd740;
+      --orange: #ff6d00;
+      --red: #ff1744;
+      --text: #e8f0fe;
+      --muted: #7896b8;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    .wrap { background: var(--bg); min-height: 100vh; }
+
+    .topbar {
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo { font-size: 17px; font-weight: 600; color: var(--cyan); letter-spacing: .08em; }
+    .logo span { color: var(--purple); font-size: 10px; display: block; font-weight: 400; letter-spacing: .14em; margin-top: 1px; }
+
+    .scroll-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 12px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .scroll-tabs::-webkit-scrollbar { display: none; }
+
+    .stab {
+      flex-shrink: 0;
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: var(--panel2);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      letter-spacing: .05em;
+      transition: all .2s;
+    }
+    .stab.on {
+      border-color: var(--cyan);
+      background: #001a22;
+      color: var(--cyan);
+    }
+
+    .content { padding: 12px; max-width: 600px; margin: 0 auto; }
+
+    .hero-card {
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      padding: 18px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+      background: var(--panel);
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      opacity: .06;
+      background: var(--cyan);
+    }
+
+    .hero-alias { font-size: 28px; font-weight: 600; color: var(--cyan); letter-spacing: .04em; }
+    .hero-name { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .hero-account { font-size: 11px; color: var(--purple); margin-top: 8px; letter-spacing: .05em; }
+    .hero-badges { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      border: 1px solid;
+    }
+    .badge-green  { background: #001a0a; color: var(--green);  border-color: #00e67644; }
+    .badge-yellow { background: #1a1200; color: var(--yellow); border-color: #ffd74044; }
+    .badge-orange { background: #1a0a00; color: var(--orange); border-color: #ff6d0044; }
+    .badge-red    { background: #1a0006; color: var(--red);    border-color: #ff174444; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+
+    .section-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin: 16px 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+
+    .mcard {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 13px;
+    }
+    .mcard-label { font-size: 10px; color: var(--muted); letter-spacing: .09em; margin-bottom: 6px; }
+    .mcard-val   { font-size: 21px; font-weight: 600; color: var(--text); }
+    .mcard-note  { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+    .bar-track { height: 6px; background: #1a2535; border-radius: 999px; overflow: hidden; margin-top: 8px; }
+    .bar-fill  { height: 100%; border-radius: 999px; transition: width .5s ease; }
+    .bar-cyan   { background: var(--cyan);   }
+    .bar-green  { background: var(--green);  }
+    .bar-yellow { background: var(--yellow); }
+    .bar-orange { background: var(--orange); }
+    .bar-red    { background: var(--red);    }
+
+    .semaforo-block {
+      border-radius: 14px;
+      border: 1px solid;
+      padding: 15px;
+      margin-bottom: 8px;
+      background: #0a1118;
+    }
+    .s-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .s-title  { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+    .s-meta   { font-size: 10px; color: var(--muted); margin-bottom: 5px; }
+    .s-pct    { font-size: 24px; font-weight: 600; }
+    .s-debt   { font-size: 10px; color: var(--muted); margin-top: 6px; }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+    .stat-row-label { font-size: 12px; color: var(--muted); }
+    .stat-row-val   { font-size: 13px; font-weight: 500; color: var(--text); }
+
+    .admin-toggle {
+      margin: 20px 0 10px;
+      width: 100%;
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 12px;
+      letter-spacing: .06em;
+      text-align: center;
+    }
+
+    .admin-panel {
+      display: none;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .admin-panel.open { display: block; }
+    .admin-panel h3 { font-size: 13px; color: var(--cyan); margin-bottom: 8px; letter-spacing: .06em; }
+    .admin-panel p  { font-size: 11px; color: var(--muted); margin-bottom: 10px; line-height: 1.6; }
+
+    textarea {
+      width: 100%;
+      min-height: 260px;
+      background: #05080f;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      resize: vertical;
+    }
+
+    .admin-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .admin-btn {
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 9px 13px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: .04em;
+    }
+    .admin-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .footer { text-align: center; padding: 20px; font-size: 10px; color: var(--line); letter-spacing: .1em; }
+
+    @media (min-width: 600px) {
+      .content { padding: 20px; }
+      .hero-alias { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="logo">HYENAS <span>SALES TRACKER</span></div>
+    <i class="ti ti-chart-bar" style="font-size:20px;color:var(--purple);"></i>
+  </div>
+
+  <div class="scroll-tabs" id="stabs"></div>
+
+  <div class="content">
+    <div id="view"></div>
+
+    <button class="admin-toggle" onclick="toggleAdmin()">
+      <i class="ti ti-settings" style="font-size:13px;vertical-align:-2px;margin-right:5px;"></i>
+      PANEL ADMIN
+    </button>
+
+    <div class="admin-panel" id="adminPanel">
+      <h3>Edición de datos JSON</h3>
+      <p>Modificá los valores y presioná "Guardar". Los cambios se guardan localmente en tu dispositivo.</p>
+      <textarea id="jsonEditor"></textarea>
+      <div class="admin-actions">
+        <button class="admin-btn" onclick="saveAdmin()">
+          <i class="ti ti-check" style="font-size:13px;vertical-align:-2px;margin-right:4px;"></i>Guardar
+        </button>
+        <button class="admin-btn" onclick="resetData()">
+          <i class="ti ti-refresh" style="font-size:13px;vertical-align:-2px;margin-right:4px;"></i>Restaurar
+        </button>
+        <button class="admin-btn" onclick="downloadBackup()">
+          <i class="ti ti-download" style="font-size:13px;vertical-align:-2px;margin-right:4px;"></i>Backup JSON
+        </button>
+      </div>
+    </div>
+
+    <div class="footer">HYENAS &nbsp;·&nbsp; SISTEMA INTERNO &nbsp;·&nbsp; SOLO LECTURA</div>
+  </div>
+</div>
+
+<script>
+const MONTH_GOAL = 1200;
+
+const BASE_DATA = [
+  {name:"Angeles Acosta",alias:"Angie",account:"riquelme39oficial",actions:1440,billingGoal:5000,billed:2300},
+  {name:"Tomas A. Quesada",alias:"Kesi",account:"martonymoral_",actions:1076,billingGoal:2500,billed:1954},
+  {name:"Carlos da Silva",alias:"Skill",account:"tiagoamaralok",actions:1269,billingGoal:4000,billed:1700},
+  {name:"Joaquin Vitale",alias:"Joaco",account:"roandrade_10",actions:549,billingGoal:4000,billed:898},
+  {name:"Tomas M. Aebi",alias:"Tomson",account:"christianno06",actions:353,billingGoal:3750,billed:800},
+  {name:"Tomás M. Mohamad",alias:"Zeri",account:"briannephowkins",actions:1094,billingGoal:500,billed:349},
+  {name:"Esteban Basaure",alias:"Esteban",account:"lucasperdomo996",actions:884,billingGoal:4000,billed:0},
+  {name:"Brandon Ramirez",alias:"Brandon",account:"morelluca_",actions:754,billingGoal:500,billed:0},
+  {name:"Axel Morales",alias:"Toto",account:"thomas_montclair",actions:749,billingGoal:3000,billed:0},
+  {name:"Agustin Tornavacio",alias:"Torna",account:"malcom.sharp",actions:510,billingGoal:1000,billed:0}
+];
+
+let sellers = JSON.parse(localStorage.getItem('hyenas_v2')) || BASE_DATA;
+let cur = 0;
+
+function saveLocal(){ localStorage.setItem('hyenas_v2', JSON.stringify(sellers)); }
+
+function aStatus(a){
+  const r = a / MONTH_GOAL * 100;
+  if(r>=100) return {label:"VERDE",    cls:"badge-green",  dot:"#00e676", bar:"bar-green",  bc:"#00e67633", tc:"#00e676"};
+  if(r>=80)  return {label:"AMARILLO", cls:"badge-yellow", dot:"#ffd740", bar:"bar-yellow", bc:"#ffd74033", tc:"#ffd740"};
+  if(r>=60)  return {label:"NARANJA",  cls:"badge-orange", dot:"#ff6d00", bar:"bar-orange", bc:"#ff6d0033", tc:"#ff6d00"};
+  return          {label:"ROJO",     cls:"badge-red",    dot:"#ff1744", bar:"bar-red",    bc:"#ff174433", tc:"#ff1744"};
+}
+
+function bStatus(billed, goal){
+  const r = goal ? billed / goal * 100 : 0;
+  if(r>=100) return {label:"CUMPLIDA", cls:"badge-green",  bar:"bar-green",  bc:"#00e67633", tc:"#00e676"};
+  if(r>=80)  return {label:"CERCA",    cls:"badge-yellow", bar:"bar-yellow", bc:"#ffd74033", tc:"#ffd740"};
+  if(r>=50)  return {label:"MEDIA",    cls:"badge-orange", bar:"bar-orange", bc:"#ff6d0033", tc:"#ff6d00"};
+  return          {label:"BAJA",     cls:"badge-red",    bar:"bar-red",    bc:"#ff174433", tc:"#ff1744"};
+}
+
+function money(n){ return `$ ${Number(n).toLocaleString('es-AR')} USD`; }
+function pct(n){ return `${Math.round(n * 10) / 10}%`; }
+
+function badge(st, label){
+  return `<span class="badge ${st.cls}"><span class="dot" style="background:${st.dot||st.tc};"></span>${label||st.label}</span>`;
+}
+
+function semBlock(title, pctVal, actual, meta, debt, st){
+  return `<div class="semaforo-block" style="border-color:${st.bc};">
+    <div class="s-header">
+      <span class="s-title" style="color:${st.tc};">${title}</span>
+      ${badge(st)}
+    </div>
+    <div class="s-meta">${actual} / ${meta}</div>
+    <div class="s-pct" style="color:${st.tc};">${pct(pctVal)}</div>
+    <div class="bar-track"><div class="bar-fill ${st.bar}" style="width:${Math.min(pctVal,100)}%;"></div></div>
+    <div class="s-debt">Saldo deudor: <span style="color:${st.tc};font-weight:600;">${debt}</span></div>
+  </div>`;
+}
+
+function render(){
+  document.getElementById('stabs').innerHTML = sellers.map((s,i) =>
+    `<button class="stab ${i===cur?'on':''}" onclick="sel(${i})">${s.alias}</button>`
+  ).join('');
+
+  const s = sellers[cur];
+  const aS = aStatus(s.actions);
+  const bS = bStatus(s.billed, s.billingGoal);
+  const aRate = s.actions / MONTH_GOAL * 100;
+  const aDebt = Math.max(MONTH_GOAL - s.actions, 0);
+  const bRate = s.billingGoal ? s.billed / s.billingGoal * 100 : 0;
+  const bDebt = Math.max(s.billingGoal - s.billed, 0);
+
+  document.getElementById('view').innerHTML = `
+    <div class="hero-card" style="border-color:${aS.bc};">
+      <div class="hero-alias">${s.alias}</div>
+      <div class="hero-name">${s.name}</div>
+      <div class="hero-account"><i class="ti ti-at" style="font-size:12px;vertical-align:-1px;margin-right:3px;"></i>${s.account}</div>
+      <div class="hero-badges">
+        ${badge(aS, 'ACC: ' + aS.label)}
+        ${badge(bS, 'FAC: ' + bS.label)}
+      </div>
+    </div>
+
+    <div class="section-title">semáforos</div>
+    ${semBlock('Acciones del mes', aRate, s.actions, MONTH_GOAL, aDebt + ' acciones', aS)}
+    ${semBlock('Facturación', bRate, money(s.billed), money(s.billingGoal), money(bDebt), bS)}
+
+    <div class="section-title">detalle acciones</div>
+    <div class="grid2">
+      <div class="mcard"><div class="mcard-label">TOTAL ACC.</div><div class="mcard-val" style="color:#00e5ff;">${s.actions}</div><div class="mcard-note">Meta: ${MONTH_GOAL}</div></div>
+      <div class="mcard"><div class="mcard-label">DEUDA ACC.</div><div class="mcard-val" style="color:${aS.tc};">${aDebt}</div><div class="mcard-note">${pct(Math.max(100-aRate,0))} pendiente</div></div>
+    </div>
+    <div class="grid2">
+      <div class="mcard"><div class="mcard-label">CUMPL. ACC.</div><div class="mcard-val">${pct(aRate)}</div><div class="bar-track"><div class="bar-fill ${aS.bar}" style="width:${Math.min(aRate,100)}%;"></div></div></div>
+      <div class="mcard"><div class="mcard-label">META DIARIA</div><div class="mcard-val" style="color:#b388ff;">100</div><div class="mcard-note">12 días hábiles</div></div>
+    </div>
+
+    <div class="section-title">detalle facturación</div>
+    <div class="stat-row"><span class="stat-row-label">Meta</span><span class="stat-row-val" style="color:#00e5ff;">${money(s.billingGoal)}</span></div>
+    <div class="stat-row"><span class="stat-row-label">Facturado</span><span class="stat-row-val" style="color:#00e676;">${money(s.billed)}</span></div>
+    <div class="stat-row"><span class="stat-row-label">Pendiente</span><span class="stat-row-val" style="color:${bS.tc};">${money(bDebt)}</span></div>
+    <div class="stat-row"><span class="stat-row-label">Cumplimiento</span><span class="stat-row-val">${pct(bRate)}</span></div>
+  `;
+
+  document.getElementById('jsonEditor').value = JSON.stringify(sellers, null, 2);
+}
+
+function sel(i){ cur = i; render(); }
+
+function toggleAdmin(){
+  document.getElementById('adminPanel').classList.toggle('open');
+}
+
+function saveAdmin(){
+  try {
+    sellers = JSON.parse(document.getElementById('jsonEditor').value);
+    saveLocal();
+    cur = 0;
+    render();
+    alert('Datos guardados correctamente.');
+  } catch(e) {
+    alert('Error en el JSON. Revisá comas, llaves y comillas.');
+  }
+}
+
+function resetData(){
+  if(!confirm('Restaurar datos base?')) return;
+  sellers = BASE_DATA;
+  saveLocal();
+  cur = 0;
+  render();
+}
+
+function downloadBackup(){
+  const blob = new Blob([JSON.stringify(sellers, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'hyenas-backup.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+render();
+</script>
+</body>
+</html>
