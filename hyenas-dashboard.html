@@ -5,287 +5,78 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hyenas Junio 2026</title>
 <style>
-body{margin:0;background:#070707;color:#f5f5f5;font-family:Arial}
-header{padding:22px;border-bottom:1px solid #222}
-h1{margin:0;font-size:24px}
-.sub{color:#aaa;margin-top:6px}
-.layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
-aside{border-right:1px solid #222;padding:14px}
-button{cursor:pointer}
-.tab{width:100%;background:#111;color:white;border:1px solid #222;border-radius:14px;padding:12px;margin-bottom:8px;text-align:left;display:flex;justify-content:space-between}
-.tab.active{border-color:#38bdf8;background:#082f49}
-main{padding:22px}
-.card{background:#111;border:1px solid #222;border-radius:16px;padding:16px;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.label{color:#aaa;font-size:13px}
-.value{font-size:26px;font-weight:900;margin-top:6px}
-.pill{padding:5px 9px;border-radius:999px;font-size:11px;font-weight:900}
-.green{background:#16a34a;color:white}
-.yellow{background:#facc15;color:#000}
-.orange{background:#f97316;color:#000}
-.red{background:#dc2626;color:white}
-table{width:100%;border-collapse:collapse;background:#111;border-radius:16px;overflow:hidden}
-th,td{padding:11px;border-bottom:1px solid #222;text-align:left}
-th{color:#aaa;background:#0d0d0d}
-textarea{width:100%;height:360px;background:#050505;color:white;border:1px solid #333;border-radius:12px;padding:12px}
-.admin{display:none}
-body.edit .admin{display:block}
-@media(max-width:800px){.layout{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}aside{border-right:0;border-bottom:1px solid #222}}
+:root{--bg:#050505;--card:#111;--line:#262626;--muted:#a3a3a3;--text:#f5f5f5;--green:#16a34a;--yellow:#facc15;--orange:#f97316;--red:#dc2626;--blue:#38bdf8;}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#151515,#050505 70%);color:var(--text);font-family:Arial,Helvetica,sans-serif} header{padding:24px;border-bottom:1px solid var(--line);background:#090909} h1{margin:0;font-size:26px}.sub{color:var(--muted);font-size:13px;margin-top:6px} main{padding:20px;max-width:1250px;margin:auto}.general{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}.big-card{background:linear-gradient(145deg,#082f49,#090909);border:1px solid #164e63;border-radius:24px;padding:22px;box-shadow:0 15px 40px rgba(0,0,0,.35)}.big-card h3{margin:0;color:#cbd5e1;font-size:14px;font-style:italic}.big-card .num{font-size:34px;font-weight:900;margin-top:8px}.big-card .mini{color:#cbd5e1;margin-top:8px;font-size:13px}.card{background:linear-gradient(145deg,#121212,#080808);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:12px}.seller-header{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;background:#101010;color:white;border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:10px;cursor:pointer}.seller-header.active{border-color:var(--blue);background:linear-gradient(135deg,#082f49,#111)}.seller-name{font-size:18px;font-weight:900}.seller-sub{font-size:12px;color:var(--muted);margin-top:4px}.pill{padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900;display:inline-block;margin:2px}.green{background:var(--green);color:white}.yellow{background:var(--yellow);color:#000}.orange{background:var(--orange);color:#000}.red{background:var(--red);color:white}.blue{background:#2563eb;color:white}.seller-body{display:none;margin-bottom:18px}.seller-body.open{display:block}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat-actions{border-color:#16a34a;background:linear-gradient(145deg,#052e16,#111)}.stat-actions-mid{border-color:#facc15;background:linear-gradient(145deg,#3a3003,#111)}.stat-actions-low{border-color:#dc2626;background:linear-gradient(145deg,#3b0505,#111)}.stat-money{border-color:#38bdf8;background:linear-gradient(145deg,#082f49,#111)}.stat-money-good{border-color:#16a34a;background:linear-gradient(145deg,#052e16,#111)}.stat-money-low{border-color:#f97316;background:linear-gradient(145deg,#3b1d05,#111)}.label{color:var(--muted);font-size:13px}.value{font-size:28px;font-weight:900;margin-top:7px}.progress{height:13px;background:#272727;border-radius:999px;overflow:hidden;margin-top:12px}.bar{height:100%;border-radius:999px}table{width:100%;border-collapse:collapse;background:#111;border-radius:18px;overflow:hidden;margin-top:14px}th,td{padding:12px;border-bottom:1px solid #222;text-align:left;font-size:14px}th{color:#aaa;background:#0d0d0d}.rank-title{font-size:20px;font-weight:900;margin:26px 0 12px}.accordion-header{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;background:linear-gradient(135deg,#111,#090909);color:white;border:1px solid var(--line);border-radius:20px;padding:18px;margin:0 0 12px;cursor:pointer}.accordion-header.active{border-color:var(--blue);background:linear-gradient(135deg,#082f49,#111)}.accordion-title{font-size:20px;font-weight:900;font-style:italic}.accordion-sub{font-size:12px;color:var(--muted);margin-top:4px}.accordion-body{display:none;margin-bottom:20px}.accordion-body.open{display:block}.chev{font-size:22px;font-weight:900;color:#cbd5e1}.admin{display:none}body.edit .admin{display:block}textarea{width:100%;height:420px;background:#050505;color:white;border:1px solid #333;border-radius:12px;padding:12px;font-family:Consolas,monospace}.admin button{background:#1f2937;color:white;border:0;border-radius:10px;padding:10px 14px;margin-right:8px;font-weight:800;cursor:pointer}@media(max-width:900px){.general,.grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){main{padding:12px}.general,.grid{grid-template-columns:1fr}.big-card .num{font-size:28px}.seller-header{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
-
-<header>
-<h1>Dashboard Hyenas — Junio 2026</h1>
-<div class="sub">Último dato cargado: 05/06 · Meta: 100 acciones por día hábil · Esperado actual: 500 acciones</div>
-</header>
-
-<div class="layout">
-<aside id="tabs"></aside>
+<header><h1>Dashboard Hyenas — Junio 2026</h1><div class="sub">Último dato cargado: 05/06 · Meta: 100 acciones por día hábil · Esperado actual: 500 acciones</div></header>
 <main>
-<section id="view"></section>
-
-<section class="admin card">
-<h3>Editor interno</h3>
-<div class="sub">Abrir con <b>?edit=1</b> para editar datos.</div>
-<textarea id="editor"></textarea>
-<button onclick="saveData()">Guardar cambios</button>
-<button onclick="resetData()">Restaurar base</button>
+<button class="accordion-header" id="generalToggle" onclick="toggleGeneral()">
+  <div><div class="accordion-title">Resumen general del equipo</div><div class="accordion-sub">Total facturado, meta mensual, cumplimiento y saldo pendiente</div></div>
+  <div class="chev" id="generalChevron">+</div>
+</button>
+<section id="generalPanel" class="accordion-body">
+  <section id="generalStats" class="general"></section>
 </section>
-</main>
-</div>
 
+<button class="accordion-header" id="rankingToggle" onclick="toggleRanking()">
+  <div><div class="accordion-title">Ranking general de facturación</div><div class="accordion-sub">Tabla completa de ventas, importe, meta y cumplimiento</div></div>
+  <div class="chev" id="rankingChevron">+</div>
+</button>
+<section id="rankingPanel" class="accordion-body">
+  <section id="billingRanking"></section>
+</section>
+
+<section id="sellers"></section>
+<section class="admin card"><h3>Editor interno</h3><div class="sub">Para editar abrí el link con <b>?edit=1</b>. Modificá acciones, ventas, facturación y metas desde este JSON.</div><br><textarea id="editor"></textarea><br><br><button onclick="saveData()">Guardar cambios</button><button onclick="resetData()">Restaurar base</button></section></main>
 <script>
-const DAILY_GOAL = 100;
-const LAST_LOADED_DATE = "2026-06-05";
-
-const WEEK_DAYS = {
-  sem1: 5,
-  sem2: 5,
-  sem3: 5,
-  sem4: 5,
-  sem5: 2
-};
-
 const CURRENT_EXPECTED = 500;
-
+const TEAM_BILLING_GOAL = 20000;
 const BASE = [
-  {
-    alias:"Angie",
-    name:"Angeles Acosta",
-    account:"riquelme39oficial",
-    billingGoal:6000,
-    billed:1000,
-    actions:{sem1:600,sem2:0,sem3:0,sem4:0,sem5:0}
-  },
-  {
-    alias:"Zeri",
-    name:"Tomás Mohamad",
-    account:"briannephowkins",
-    billingGoal:1000,
-    billed:125,
-    actions:{sem1:530,sem2:0,sem3:0,sem4:0,sem5:0}
-  },
-  {
-    alias:"Kesi",
-    name:"Tomás Quesada",
-    account:"martonymoral_",
-    billingGoal:2800,
-    billed:1750,
-    actions:{sem1:447,sem2:0,sem3:0,sem4:0,sem5:0}
-  },
-  {
-    alias:"Skill",
-    name:"Carlos da Silva",
-    account:"tiagoamaralok",
-    billingGoal:4000,
-    billed:0,
-    actions:{sem1:439,sem2:0,sem3:0,sem4:0,sem5:0}
-  },
-  {
-    alias:"Esteban",
-    name:"Esteban Basaure",
-    account:"lucasperdomo996",
-    billingGoal:3000,
-    billed:1600,
-    actions:{sem1:407,sem2:0,sem3:0,sem4:0,sem5:0}
-  },
-  {
-    alias:"Brandon",
-    name:"Brandon Ramirez",
-    account:"morelluca_",
-    billingGoal:500,
-    billed:0,
-    actions:{sem1:339,sem2:0,sem3:0,sem4:0,sem5:0}
-  },
-  {
-    alias:"Joaco",
-    name:"Joaquin Vitale",
-    account:"roandrade_10",
-    billingGoal:4000,
-    billed:2176,
-    actions:{sem1:273,sem2:0,sem3:0,sem4:0,sem5:0}
-  },
-  {
-    alias:"Torna",
-    name:"Agustin Tornavacio",
-    account:"thomas.f.russ",
-    billingGoal:1000,
-    billed:0,
-    actions:{sem1:250,sem2:0,sem3:0,sem4:0,sem5:0}
-  },
-  {
-    alias:"Lio",
-    name:"Lionel Zicavo",
-    account:"edwardrodriguez.ok",
-    billingGoal:500,
-    billed:0,
-    actions:{sem1:202,sem2:0,sem3:0,sem4:0,sem5:0}
-  },
-  {
-    alias:"Tomson",
-    name:"Tomas Maximiliano Aebi",
-    account:"christianno06",
-    billingGoal:3750,
-    billed:0,
-    actions:{sem1:109,sem2:0,sem3:0,sem4:0,sem5:0}
-  }
+  {alias:"Tomson",name:"Tomas Maximiliano Aebi",account:"christianno06",sales:1,billingGoal:3750,billed:2500,actions:{sem1:109,sem2:0,sem3:0,sem4:0,sem5:0}},
+  {alias:"Joaco",name:"Joaquin Vitale",account:"roandrade_10",sales:6,billingGoal:4000,billed:2176,actions:{sem1:273,sem2:0,sem3:0,sem4:0,sem5:0}},
+  {alias:"Kesi",name:"Tomas Agustín Quesada",account:"martonymoral_",sales:8,billingGoal:2800,billed:1722,actions:{sem1:447,sem2:0,sem3:0,sem4:0,sem5:0}},
+  {alias:"Esteban",name:"Esteban Basaure",account:"lucasperdomo996",sales:3,billingGoal:3000,billed:1600,actions:{sem1:407,sem2:0,sem3:0,sem4:0,sem5:0}},
+  {alias:"Angie",name:"Angeles Acosta",account:"riquelme39oficial",sales:2,billingGoal:6000,billed:1000,actions:{sem1:600,sem2:0,sem3:0,sem4:0,sem5:0}},
+  {alias:"Zeri",name:"Tomás Mikel Mohamad",account:"briannephowkins",sales:1,billingGoal:1000,billed:125,actions:{sem1:530,sem2:0,sem3:0,sem4:0,sem5:0}},
+  {alias:"Skill",name:"Carlos da Silva",account:"tiagoamaralok",sales:0,billingGoal:4000,billed:0,actions:{sem1:439,sem2:0,sem3:0,sem4:0,sem5:0}},
+  {alias:"Brandon",name:"Brandon Ramirez",account:"morelluca_",sales:0,billingGoal:500,billed:0,actions:{sem1:339,sem2:0,sem3:0,sem4:0,sem5:0}},
+  {alias:"Torna",name:"Agustin Tornavacio",account:"thomas.f.russ",sales:0,billingGoal:1000,billed:0,actions:{sem1:250,sem2:0,sem3:0,sem4:0,sem5:0}},
+  {alias:"Lio",name:"Lionel Zicavo",account:"edwardrodriguez.ok",sales:0,billingGoal:500,billed:0,actions:{sem1:202,sem2:0,sem3:0,sem4:0,sem5:0}}
 ];
-
 let data = JSON.parse(localStorage.getItem("hyenas_junio_2026")) || BASE;
-let selected = 0;
+let openSeller = null;
+let generalOpen = false;
+let rankingOpen = false;
+if(new URLSearchParams(location.search).get("edit")==="1") document.body.classList.add("edit");
+function totalActions(s){return Object.values(s.actions).reduce((a,b)=>a+Number(b),0)}
+function money(n){return "$ "+Number(n).toLocaleString("en-US")+" USD"}
+function pct(a,b){return b?((a/b)*100).toFixed(1)+"%":"0%"}
+function status(value,goal){const p=goal?value/goal*100:0;if(p>=100)return["VERDE","green"];if(p>=80)return["AMARILLO","yellow"];if(p>=60)return["NARANJA","orange"];return["ROJO","red"]}
+function medal(i){return i===0?"🥇":i===1?"🥈":i===2?"🥉":String(i+1)}
+function renderGeneral(){const totalBilled=data.reduce((a,s)=>a+Number(s.billed),0);const totalActionsTeam=data.reduce((a,s)=>a+totalActions(s),0);const expectedActionsTeam=CURRENT_EXPECTED*data.length;const pendingBilling=Math.max(TEAM_BILLING_GOAL-totalBilled,0);document.getElementById("generalStats").innerHTML=`<div class="big-card"><h3>Total facturado equipo</h3><div class="num">${money(totalBilled)}</div><div class="mini">Avance real de junio</div></div><div class="big-card"><h3>Meta equipo junio</h3><div class="num">${money(TEAM_BILLING_GOAL)}</div><div class="mini">Objetivo mensual activo</div></div><div class="big-card"><h3>Cumplimiento facturación</h3><div class="num">${pct(totalBilled,TEAM_BILLING_GOAL)}</div><div class="progress"><div class="bar green" style="width:${Math.min(totalBilled/TEAM_BILLING_GOAL*100,100)}%"></div></div></div><div class="big-card"><h3>Saldo pendiente equipo</h3><div class="num">${money(pendingBilling)}</div><div class="mini">Acciones equipo: ${totalActionsTeam} / ${expectedActionsTeam}</div></div>`}
+function renderBillingRanking(){const sorted=[...data].sort((a,b)=>b.billed-a.billed);document.getElementById("billingRanking").innerHTML=`<div class="rank-title">Ranking de facturación</div><table><thead><tr><th>#</th><th>Vendedor</th><th>Ventas</th><th>Importe</th><th>Meta</th><th>Cumplimiento</th></tr></thead><tbody>${sorted.map((s,i)=>`<tr><td>${medal(i)}</td><td><b>${s.alias}</b> — ${s.name}<br><small>${s.account}</small></td><td>${s.sales}</td><td><b>${money(s.billed)}</b></td><td>${money(s.billingGoal)}</td><td>${pct(s.billed,s.billingGoal)}</td></tr>`).join("")}</tbody></table>`}
+function renderSellers(){document.getElementById("sellers").innerHTML=data.map((s,i)=>{const total=totalActions(s);const actionSt=status(total,CURRENT_EXPECTED);const billingSt=status(s.billed,s.billingGoal);const bodyOpen=openSeller===i?"open":"";const headerActive=openSeller===i?"active":"";return `<button class="seller-header ${headerActive}" onclick="toggleSeller(${i})"><div><div class="seller-name">${s.alias} — ${s.name}</div><div class="seller-sub">${s.account}</div></div><div><span class="pill ${actionSt[1]}">ACC ${actionSt[0]}</span><span class="pill ${billingSt[1]}">USD ${billingSt[0]}</span></div></button><div class="seller-body ${bodyOpen}">${sellerDetail(s)}</div>`}).join("");document.getElementById("editor").value=JSON.stringify(data,null,2)}
+function sellerDetail(s){const total=totalActions(s);const diff=total-CURRENT_EXPECTED;const debt=Math.max(CURRENT_EXPECTED-total,0);const actionRate=total/CURRENT_EXPECTED*100;const billDebt=Math.max(s.billingGoal-s.billed,0);const billingRate=s.billingGoal?s.billed/s.billingGoal*100:0;const aSt=status(total,CURRENT_EXPECTED);const bSt=status(s.billed,s.billingGoal);const actionClass=actionRate>=100?"stat-actions":actionRate>=70?"stat-actions-mid":"stat-actions-low";const moneyClass=billingRate>=100?"stat-money-good":billingRate>=50?"stat-money":"stat-money-low";return `<div class="grid"><div class="card ${actionClass}"><div class="label">Acciones acumuladas</div><div class="value">${total}</div><div class="progress"><div class="bar ${aSt[1]}" style="width:${Math.min(actionRate,100)}%"></div></div><div class="sub">${pct(total,CURRENT_EXPECTED)} de cumplimiento</div></div><div class="card ${actionClass}"><div class="label">Debería tener</div><div class="value">${CURRENT_EXPECTED}</div><div class="sub">100 acciones por día hábil</div></div><div class="card ${diff>=0?'stat-actions':'stat-actions-low'}"><div class="label">Diferencia acciones</div><div class="value">${diff>=0?'+':''}${diff}</div><div class="sub">${debt===0?'Está al día':'Debe '+debt+' acciones'}</div></div><div class="card"><div class="label">Estado acciones</div><div class="value"><span class="pill ${aSt[1]}">${aSt[0]}</span></div><div class="sub">${actionRate>=100?'Ritmo ganador':'Necesita recuperar ritmo'}</div></div></div><div class="grid"><div class="card ${moneyClass}"><div class="label">Facturado actual</div><div class="value">${money(s.billed)}</div><div class="progress"><div class="bar ${bSt[1]}" style="width:${Math.min(billingRate,100)}%"></div></div><div class="sub">${pct(s.billed,s.billingGoal)} de cumplimiento</div></div><div class="card stat-money"><div class="label">Meta facturación</div><div class="value">${money(s.billingGoal)}</div><div class="sub">Objetivo mensual individual</div></div><div class="card ${billDebt===0?'stat-money-good':'stat-money-low'}"><div class="label">Saldo pendiente</div><div class="value">${money(billDebt)}</div><div class="sub">${billDebt===0?'Meta cumplida':'Todavía pendiente'}</div></div><div class="card"><div class="label">Estado facturación</div><div class="value"><span class="pill ${bSt[1]}">${bSt[0]}</span></div><div class="sub">${billingRate>=100?'Cerró la meta':'A seguir cerrando'}</div></div></div><table><thead><tr><th>Semana</th><th>Acciones</th><th>Meta semana</th><th>Diferencia</th><th>Estado</th></tr></thead><tbody>${weekRow("Semana 1","1 al 5 junio",s.actions.sem1,500)}${weekRow("Semana 2","8 al 12 junio",s.actions.sem2,500)}${weekRow("Semana 3","15 al 19 junio",s.actions.sem3,500)}${weekRow("Semana 4","22 al 26 junio",s.actions.sem4,500)}${weekRow("Semana 5","29 al 30 junio",s.actions.sem5,200)}</tbody></table>`}
+function weekRow(title,date,value,goal){const st=status(value,goal);const diff=value-goal;return `<tr><td>${title}<br><small>${date}</small></td><td>${value}</td><td>${goal}</td><td>${diff>=0?'+':''}${diff}</td><td><span class="pill ${st[1]}">${st[0]}</span></td></tr>`}
+function toggleSeller(i){openSeller=openSeller===i?null:i;render()}
 
-if(new URLSearchParams(location.search).get("edit")==="1"){
-  document.body.classList.add("edit");
+function toggleGeneral(){generalOpen=!generalOpen;render()}
+function toggleRanking(){rankingOpen=!rankingOpen;render()}
+function renderAccordions(){
+  const gp=document.getElementById("generalPanel");
+  const gt=document.getElementById("generalToggle");
+  const gc=document.getElementById("generalChevron");
+  const rp=document.getElementById("rankingPanel");
+  const rt=document.getElementById("rankingToggle");
+  const rc=document.getElementById("rankingChevron");
+  if(gp){gp.classList.toggle("open",generalOpen);gt.classList.toggle("active",generalOpen);gc.textContent=generalOpen?"−":"+"}
+  if(rp){rp.classList.toggle("open",rankingOpen);rt.classList.toggle("active",rankingOpen);rc.textContent=rankingOpen?"−":"+"}
 }
-
-function totalActions(s){
-  return Object.values(s.actions).reduce((a,b)=>a+Number(b),0);
-}
-
-function pct(a,b){
-  return b ? ((a/b)*100).toFixed(1)+"%" : "0%";
-}
-
-function money(n){
-  return "$ "+Number(n).toLocaleString("en-US")+" USD";
-}
-
-function status(value, goal){
-  const p = goal ? value/goal*100 : 0;
-  if(p>=100)return ["VERDE","green"];
-  if(p>=80)return ["AMARILLO","yellow"];
-  if(p>=60)return ["NARANJA","orange"];
-  return ["ROJO","red"];
-}
-
-function renderTabs(){
-  document.getElementById("tabs").innerHTML = data.map((s,i)=>{
-    const total = totalActions(s);
-    const st = status(total,CURRENT_EXPECTED);
-    return `<button class="tab ${i===selected?'active':''}" onclick="selectSeller(${i})">
-      <span><b>${s.alias}</b><br><small>${s.name}</small></span>
-      <span class="pill ${st[1]}">${st[0]}</span>
-    </button>`;
-  }).join("");
-}
-
-function renderView(){
-  const s = data[selected];
-  const total = totalActions(s);
-  const debt = Math.max(CURRENT_EXPECTED-total,0);
-  const diff = total-CURRENT_EXPECTED;
-  const st = status(total,CURRENT_EXPECTED);
-  const billDebt = Math.max(s.billingGoal-s.billed,0);
-  const billSt = status(s.billed,s.billingGoal);
-
-  document.getElementById("view").innerHTML = `
-    <div class="card">
-      <h2>${s.alias} — ${s.name}</h2>
-      <div class="sub">Cuenta: ${s.account}</div>
-    </div>
-
-    <div class="grid">
-      <div class="card"><div class="label">Total acciones</div><div class="value">${total}</div></div>
-      <div class="card"><div class="label">Debería tener</div><div class="value">${CURRENT_EXPECTED}</div></div>
-      <div class="card"><div class="label">Diferencia</div><div class="value">${diff}</div></div>
-      <div class="card"><div class="label">Estado acciones</div><div class="value"><span class="pill ${st[1]}">${st[0]}</span></div></div>
-    </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Semana</th>
-          <th>Acciones</th>
-          <th>Meta semana</th>
-          <th>Diferencia</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Semana 1<br><small>1 al 5 junio</small></td><td>${s.actions.sem1}</td><td>500</td><td>${s.actions.sem1-500}</td></tr>
-        <tr><td>Semana 2<br><small>8 al 12 junio</small></td><td>${s.actions.sem2}</td><td>500</td><td>${s.actions.sem2-500}</td></tr>
-        <tr><td>Semana 3<br><small>15 al 19 junio</small></td><td>${s.actions.sem3}</td><td>500</td><td>${s.actions.sem3-500}</td></tr>
-        <tr><td>Semana 4<br><small>22 al 26 junio</small></td><td>${s.actions.sem4}</td><td>500</td><td>${s.actions.sem4-500}</td></tr>
-        <tr><td>Semana 5<br><small>29 al 30 junio</small></td><td>${s.actions.sem5}</td><td>200</td><td>${s.actions.sem5-200}</td></tr>
-      </tbody>
-    </table>
-
-    <div class="grid" style="margin-top:14px">
-      <div class="card"><div class="label">Facturado</div><div class="value">${money(s.billed)}</div></div>
-      <div class="card"><div class="label">Meta facturación</div><div class="value">${money(s.billingGoal)}</div></div>
-      <div class="card"><div class="label">Saldo pendiente</div><div class="value">${money(billDebt)}</div></div>
-      <div class="card"><div class="label">Estado facturación</div><div class="value"><span class="pill ${billSt[1]}">${billSt[0]}</span></div></div>
-    </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Indicador</th>
-          <th>Actual</th>
-          <th>Meta</th>
-          <th>Cumplimiento</th>
-          <th>Debe</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Acciones al 05/06</td><td>${total}</td><td>${CURRENT_EXPECTED}</td><td>${pct(total,CURRENT_EXPECTED)}</td><td>${debt}</td></tr>
-        <tr><td>Facturación</td><td>${money(s.billed)}</td><td>${money(s.billingGoal)}</td><td>${pct(s.billed,s.billingGoal)}</td><td>${money(billDebt)}</td></tr>
-      </tbody>
-    </table>
-  `;
-
-  document.getElementById("editor").value = JSON.stringify(data,null,2);
-}
-
-function selectSeller(i){
-  selected=i;
-  render();
-}
-
-function saveData(){
-  try{
-    data = JSON.parse(document.getElementById("editor").value);
-    localStorage.setItem("hyenas_junio_2026",JSON.stringify(data));
-    selected=0;
-    render();
-    alert("Datos guardados");
-  }catch(e){
-    alert("JSON inválido");
-  }
-}
-
-function resetData(){
-  localStorage.removeItem("hyenas_junio_2026");
-  data = BASE;
-  selected=0;
-  render();
-}
-
-function render(){
-  renderTabs();
-  renderView();
-}
-
+function saveData(){try{data=JSON.parse(document.getElementById("editor").value);localStorage.setItem("hyenas_junio_2026",JSON.stringify(data));render();alert("Datos guardados")}catch(e){alert("JSON inválido")}}
+function resetData(){localStorage.removeItem("hyenas_junio_2026");data=BASE;openSeller=null;render()}
+function render(){renderGeneral();renderBillingRanking();renderSellers();renderAccordions()}
 render();
 </script>
 </body>
