@@ -1,426 +1,289 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>Hyenas | Sales Tracker</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #080c14;
-      --panel: #0d1420;
-      --panel2: #111927;
-      --line: #1e2d45;
-      --cyan: #00e5ff;
-      --cyan2: #00b8d4;
-      --purple: #b388ff;
-      --purple2: #7c4dff;
-      --green: #00e676;
-      --yellow: #ffd740;
-      --orange: #ff6d00;
-      --red: #ff1744;
-      --text: #e8f0fe;
-      --muted: #7896b8;
-    }
-
-    html, body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-      font-size: 14px;
-      min-height: 100vh;
-    }
-
-    .wrap { background: var(--bg); min-height: 100vh; }
-
-    .topbar {
-      background: var(--panel);
-      border-bottom: 1px solid var(--line);
-      padding: 13px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .logo { font-size: 17px; font-weight: 600; color: var(--cyan); letter-spacing: .08em; }
-    .logo span { color: var(--purple); font-size: 10px; display: block; font-weight: 400; letter-spacing: .14em; margin-top: 1px; }
-
-    .scroll-tabs {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 10px 12px;
-      background: var(--panel);
-      border-bottom: 1px solid var(--line);
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .scroll-tabs::-webkit-scrollbar { display: none; }
-
-    .stab {
-      flex-shrink: 0;
-      padding: 7px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: var(--panel2);
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      letter-spacing: .05em;
-      transition: all .2s;
-    }
-    .stab.on {
-      border-color: var(--cyan);
-      background: #001a22;
-      color: var(--cyan);
-    }
-
-    .content { padding: 12px; max-width: 600px; margin: 0 auto; }
-
-    .hero-card {
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      padding: 18px;
-      margin-bottom: 12px;
-      position: relative;
-      overflow: hidden;
-      background: var(--panel);
-    }
-    .hero-card::before {
-      content: '';
-      position: absolute;
-      top: -20px; right: -20px;
-      width: 100px; height: 100px;
-      border-radius: 50%;
-      opacity: .06;
-      background: var(--cyan);
-    }
-
-    .hero-alias { font-size: 28px; font-weight: 600; color: var(--cyan); letter-spacing: .04em; }
-    .hero-name { font-size: 12px; color: var(--muted); margin-top: 3px; }
-    .hero-account { font-size: 11px; color: var(--purple); margin-top: 8px; letter-spacing: .05em; }
-    .hero-badges { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .06em;
-      border: 1px solid;
-    }
-    .badge-green  { background: #001a0a; color: var(--green);  border-color: #00e67644; }
-    .badge-yellow { background: #1a1200; color: var(--yellow); border-color: #ffd74044; }
-    .badge-orange { background: #1a0a00; color: var(--orange); border-color: #ff6d0044; }
-    .badge-red    { background: #1a0006; color: var(--red);    border-color: #ff174444; }
-    .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
-
-    .section-title {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--muted);
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      margin: 16px 0 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line); }
-
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-
-    .mcard {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 13px;
-    }
-    .mcard-label { font-size: 10px; color: var(--muted); letter-spacing: .09em; margin-bottom: 6px; }
-    .mcard-val   { font-size: 21px; font-weight: 600; color: var(--text); }
-    .mcard-note  { font-size: 10px; color: var(--muted); margin-top: 4px; }
-
-    .bar-track { height: 6px; background: #1a2535; border-radius: 999px; overflow: hidden; margin-top: 8px; }
-    .bar-fill  { height: 100%; border-radius: 999px; transition: width .5s ease; }
-    .bar-cyan   { background: var(--cyan);   }
-    .bar-green  { background: var(--green);  }
-    .bar-yellow { background: var(--yellow); }
-    .bar-orange { background: var(--orange); }
-    .bar-red    { background: var(--red);    }
-
-    .semaforo-block {
-      border-radius: 14px;
-      border: 1px solid;
-      padding: 15px;
-      margin-bottom: 8px;
-      background: #0a1118;
-    }
-    .s-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .s-title  { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
-    .s-meta   { font-size: 10px; color: var(--muted); margin-bottom: 5px; }
-    .s-pct    { font-size: 24px; font-weight: 600; }
-    .s-debt   { font-size: 10px; color: var(--muted); margin-top: 6px; }
-
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 14px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      margin-bottom: 6px;
-    }
-    .stat-row-label { font-size: 12px; color: var(--muted); }
-    .stat-row-val   { font-size: 13px; font-weight: 500; color: var(--text); }
-
-    .admin-toggle {
-      margin: 20px 0 10px;
-      width: 100%;
-      background: var(--panel2);
-      border: 1px solid var(--line);
-      color: var(--muted);
-      padding: 10px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 12px;
-      letter-spacing: .06em;
-      text-align: center;
-    }
-
-    .admin-panel {
-      display: none;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 20px;
-    }
-    .admin-panel.open { display: block; }
-    .admin-panel h3 { font-size: 13px; color: var(--cyan); margin-bottom: 8px; letter-spacing: .06em; }
-    .admin-panel p  { font-size: 11px; color: var(--muted); margin-bottom: 10px; line-height: 1.6; }
-
-    textarea {
-      width: 100%;
-      min-height: 260px;
-      background: #05080f;
-      color: var(--text);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 12px;
-      font-family: 'Courier New', monospace;
-      font-size: 12px;
-      resize: vertical;
-    }
-
-    .admin-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-    .admin-btn {
-      background: var(--panel2);
-      border: 1px solid var(--line);
-      color: var(--text);
-      padding: 9px 13px;
-      border-radius: 9px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      letter-spacing: .04em;
-    }
-    .admin-btn:hover { border-color: var(--cyan); color: var(--cyan); }
-
-    .footer { text-align: center; padding: 20px; font-size: 10px; color: var(--line); letter-spacing: .1em; }
-
-    @media (min-width: 600px) {
-      .content { padding: 20px; }
-      .hero-alias { font-size: 32px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyenas Junio 2026</title>
+<style>
+body{margin:0;background:#070707;color:#f5f5f5;font-family:Arial}
+header{padding:22px;border-bottom:1px solid #222}
+h1{margin:0;font-size:24px}
+.sub{color:#aaa;margin-top:6px}
+.layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+aside{border-right:1px solid #222;padding:14px}
+button{cursor:pointer}
+.tab{width:100%;background:#111;color:white;border:1px solid #222;border-radius:14px;padding:12px;margin-bottom:8px;text-align:left;display:flex;justify-content:space-between}
+.tab.active{border-color:#38bdf8;background:#082f49}
+main{padding:22px}
+.card{background:#111;border:1px solid #222;border-radius:16px;padding:16px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.label{color:#aaa;font-size:13px}
+.value{font-size:26px;font-weight:900;margin-top:6px}
+.pill{padding:5px 9px;border-radius:999px;font-size:11px;font-weight:900}
+.green{background:#16a34a;color:white}
+.yellow{background:#facc15;color:#000}
+.orange{background:#f97316;color:#000}
+.red{background:#dc2626;color:white}
+table{width:100%;border-collapse:collapse;background:#111;border-radius:16px;overflow:hidden}
+th,td{padding:11px;border-bottom:1px solid #222;text-align:left}
+th{color:#aaa;background:#0d0d0d}
+textarea{width:100%;height:360px;background:#050505;color:white;border:1px solid #333;border-radius:12px;padding:12px}
+.admin{display:none}
+body.edit .admin{display:block}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}aside{border-right:0;border-bottom:1px solid #222}}
+</style>
 </head>
 <body>
 
-<div class="wrap">
-  <div class="topbar">
-    <div class="logo">HYENAS <span>SALES TRACKER</span></div>
-    <i class="ti ti-chart-bar" style="font-size:20px;color:var(--purple);"></i>
-  </div>
+<header>
+<h1>Dashboard Hyenas — Junio 2026</h1>
+<div class="sub">Último dato cargado: 05/06 · Meta: 100 acciones por día hábil · Esperado actual: 500 acciones</div>
+</header>
 
-  <div class="scroll-tabs" id="stabs"></div>
+<div class="layout">
+<aside id="tabs"></aside>
+<main>
+<section id="view"></section>
 
-  <div class="content">
-    <div id="view"></div>
-
-    <button class="admin-toggle" onclick="toggleAdmin()">
-      <i class="ti ti-settings" style="font-size:13px;vertical-align:-2px;margin-right:5px;"></i>
-      PANEL ADMIN
-    </button>
-
-    <div class="admin-panel" id="adminPanel">
-      <h3>Edición de datos JSON</h3>
-      <p>Modificá los valores y presioná "Guardar". Los cambios se guardan localmente en tu dispositivo.</p>
-      <textarea id="jsonEditor"></textarea>
-      <div class="admin-actions">
-        <button class="admin-btn" onclick="saveAdmin()">
-          <i class="ti ti-check" style="font-size:13px;vertical-align:-2px;margin-right:4px;"></i>Guardar
-        </button>
-        <button class="admin-btn" onclick="resetData()">
-          <i class="ti ti-refresh" style="font-size:13px;vertical-align:-2px;margin-right:4px;"></i>Restaurar
-        </button>
-        <button class="admin-btn" onclick="downloadBackup()">
-          <i class="ti ti-download" style="font-size:13px;vertical-align:-2px;margin-right:4px;"></i>Backup JSON
-        </button>
-      </div>
-    </div>
-
-    <div class="footer">HYENAS &nbsp;·&nbsp; SISTEMA INTERNO &nbsp;·&nbsp; SOLO LECTURA</div>
-  </div>
+<section class="admin card">
+<h3>Editor interno</h3>
+<div class="sub">Abrir con <b>?edit=1</b> para editar datos.</div>
+<textarea id="editor"></textarea>
+<button onclick="saveData()">Guardar cambios</button>
+<button onclick="resetData()">Restaurar base</button>
+</section>
+</main>
 </div>
 
 <script>
-const MONTH_GOAL = 1900;
+const DAILY_GOAL = 100;
+const LAST_LOADED_DATE = "2026-06-05";
 
-const BASE_DATA = [
-  {name:"Angeles Acosta",alias:"Angie",account:"riquelme39oficial",actions:1440,billingGoal:5000,billed:2300},
-  {name:"Tomas A. Quesada",alias:"Kesi",account:"martonymoral_",actions:1076,billingGoal:2500,billed:1954},
-  {name:"Carlos da Silva",alias:"Skill",account:"tiagoamaralok",actions:1269,billingGoal:4000,billed:1700},
-  {name:"Joaquin Vitale",alias:"Joaco",account:"roandrade_10",actions:549,billingGoal:4000,billed:898},
-  {name:"Tomas M. Aebi",alias:"Tomson",account:"christianno06",actions:353,billingGoal:3750,billed:800},
-  {name:"Tomás M. Mohamad",alias:"Zeri",account:"briannephowkins",actions:1094,billingGoal:500,billed:349},
-  {name:"Esteban Basaure",alias:"Esteban",account:"lucasperdomo996",actions:884,billingGoal:4000,billed:0},
-  {name:"Brandon Ramirez",alias:"Brandon",account:"morelluca_",actions:754,billingGoal:500,billed:0},
-  {name:"Axel Morales",alias:"Toto",account:"thomas_montclair",actions:749,billingGoal:3000,billed:0},
-  {name:"Agustin Tornavacio",alias:"Torna",account:"malcom.sharp",actions:510,billingGoal:1000,billed:0}
+const WEEK_DAYS = {
+  sem1: 5,
+  sem2: 5,
+  sem3: 5,
+  sem4: 5,
+  sem5: 2
+};
+
+const CURRENT_EXPECTED = 500;
+
+const BASE = [
+  {
+    alias:"Angie",
+    name:"Angeles Acosta",
+    account:"riquelme39oficial",
+    billingGoal:6000,
+    billed:1000,
+    actions:{sem1:600,sem2:0,sem3:0,sem4:0,sem5:0}
+  },
+  {
+    alias:"Zeri",
+    name:"Tomás Mohamad",
+    account:"briannephowkins",
+    billingGoal:1000,
+    billed:125,
+    actions:{sem1:530,sem2:0,sem3:0,sem4:0,sem5:0}
+  },
+  {
+    alias:"Kesi",
+    name:"Tomás Quesada",
+    account:"martonymoral_",
+    billingGoal:2800,
+    billed:1750,
+    actions:{sem1:447,sem2:0,sem3:0,sem4:0,sem5:0}
+  },
+  {
+    alias:"Skill",
+    name:"Carlos da Silva",
+    account:"tiagoamaralok",
+    billingGoal:4000,
+    billed:0,
+    actions:{sem1:439,sem2:0,sem3:0,sem4:0,sem5:0}
+  },
+  {
+    alias:"Esteban",
+    name:"Esteban Basaure",
+    account:"lucasperdomo996",
+    billingGoal:3000,
+    billed:1600,
+    actions:{sem1:407,sem2:0,sem3:0,sem4:0,sem5:0}
+  },
+  {
+    alias:"Brandon",
+    name:"Brandon Ramirez",
+    account:"morelluca_",
+    billingGoal:500,
+    billed:0,
+    actions:{sem1:339,sem2:0,sem3:0,sem4:0,sem5:0}
+  },
+  {
+    alias:"Joaco",
+    name:"Joaquin Vitale",
+    account:"roandrade_10",
+    billingGoal:4000,
+    billed:2176,
+    actions:{sem1:273,sem2:0,sem3:0,sem4:0,sem5:0}
+  },
+  {
+    alias:"Torna",
+    name:"Agustin Tornavacio",
+    account:"thomas.f.russ",
+    billingGoal:1000,
+    billed:0,
+    actions:{sem1:250,sem2:0,sem3:0,sem4:0,sem5:0}
+  },
+  {
+    alias:"Lio",
+    name:"Lionel Zicavo",
+    account:"edwardrodriguez.ok",
+    billingGoal:500,
+    billed:0,
+    actions:{sem1:202,sem2:0,sem3:0,sem4:0,sem5:0}
+  },
+  {
+    alias:"Tomson",
+    name:"Tomas Maximiliano Aebi",
+    account:"christianno06",
+    billingGoal:3750,
+    billed:0,
+    actions:{sem1:109,sem2:0,sem3:0,sem4:0,sem5:0}
+  }
 ];
 
-let sellers = JSON.parse(localStorage.getItem('hyenas_v2')) || BASE_DATA;
-let cur = 0;
+let data = JSON.parse(localStorage.getItem("hyenas_junio_2026")) || BASE;
+let selected = 0;
 
-function saveLocal(){ localStorage.setItem('hyenas_v2', JSON.stringify(sellers)); }
-
-function aStatus(a){
-  const r = a / MONTH_GOAL * 100;
-  if(r>=100) return {label:"VERDE",    cls:"badge-green",  dot:"#00e676", bar:"bar-green",  bc:"#00e67633", tc:"#00e676"};
-  if(r>=80)  return {label:"AMARILLO", cls:"badge-yellow", dot:"#ffd740", bar:"bar-yellow", bc:"#ffd74033", tc:"#ffd740"};
-  if(r>=60)  return {label:"NARANJA",  cls:"badge-orange", dot:"#ff6d00", bar:"bar-orange", bc:"#ff6d0033", tc:"#ff6d00"};
-  return          {label:"ROJO",     cls:"badge-red",    dot:"#ff1744", bar:"bar-red",    bc:"#ff174433", tc:"#ff1744"};
+if(new URLSearchParams(location.search).get("edit")==="1"){
+  document.body.classList.add("edit");
 }
 
-function bStatus(billed, goal){
-  const r = goal ? billed / goal * 100 : 0;
-  if(r>=100) return {label:"CUMPLIDA", cls:"badge-green",  bar:"bar-green",  bc:"#00e67633", tc:"#00e676"};
-  if(r>=80)  return {label:"CERCA",    cls:"badge-yellow", bar:"bar-yellow", bc:"#ffd74033", tc:"#ffd740"};
-  if(r>=50)  return {label:"MEDIA",    cls:"badge-orange", bar:"bar-orange", bc:"#ff6d0033", tc:"#ff6d00"};
-  return          {label:"BAJA",     cls:"badge-red",    bar:"bar-red",    bc:"#ff174433", tc:"#ff1744"};
+function totalActions(s){
+  return Object.values(s.actions).reduce((a,b)=>a+Number(b),0);
 }
 
-function money(n){ return `$ ${Number(n).toLocaleString('es-AR')} USD`; }
-function pct(n){ return `${Math.round(n * 10) / 10}%`; }
-
-function badge(st, label){
-  return `<span class="badge ${st.cls}"><span class="dot" style="background:${st.dot||st.tc};"></span>${label||st.label}</span>`;
+function pct(a,b){
+  return b ? ((a/b)*100).toFixed(1)+"%" : "0%";
 }
 
-function semBlock(title, pctVal, actual, meta, debt, st){
-  return `<div class="semaforo-block" style="border-color:${st.bc};">
-    <div class="s-header">
-      <span class="s-title" style="color:${st.tc};">${title}</span>
-      ${badge(st)}
-    </div>
-    <div class="s-meta">${actual} / ${meta}</div>
-    <div class="s-pct" style="color:${st.tc};">${pct(pctVal)}</div>
-    <div class="bar-track"><div class="bar-fill ${st.bar}" style="width:${Math.min(pctVal,100)}%;"></div></div>
-    <div class="s-debt">Saldo deudor: <span style="color:${st.tc};font-weight:600;">${debt}</span></div>
-  </div>`;
+function money(n){
+  return "$ "+Number(n).toLocaleString("en-US")+" USD";
 }
 
-function render(){
-  document.getElementById('stabs').innerHTML = sellers.map((s,i) =>
-    `<button class="stab ${i===cur?'on':''}" onclick="sel(${i})">${s.alias}</button>`
-  ).join('');
+function status(value, goal){
+  const p = goal ? value/goal*100 : 0;
+  if(p>=100)return ["VERDE","green"];
+  if(p>=80)return ["AMARILLO","yellow"];
+  if(p>=60)return ["NARANJA","orange"];
+  return ["ROJO","red"];
+}
 
-  const s = sellers[cur];
-  const aS = aStatus(s.actions);
-  const bS = bStatus(s.billed, s.billingGoal);
-  const aRate = s.actions / MONTH_GOAL * 100;
-  const aDebt = Math.max(MONTH_GOAL - s.actions, 0);
-  const bRate = s.billingGoal ? s.billed / s.billingGoal * 100 : 0;
-  const bDebt = Math.max(s.billingGoal - s.billed, 0);
+function renderTabs(){
+  document.getElementById("tabs").innerHTML = data.map((s,i)=>{
+    const total = totalActions(s);
+    const st = status(total,CURRENT_EXPECTED);
+    return `<button class="tab ${i===selected?'active':''}" onclick="selectSeller(${i})">
+      <span><b>${s.alias}</b><br><small>${s.name}</small></span>
+      <span class="pill ${st[1]}">${st[0]}</span>
+    </button>`;
+  }).join("");
+}
 
-  document.getElementById('view').innerHTML = `
-    <div class="hero-card" style="border-color:${aS.bc};">
-      <div class="hero-alias">${s.alias}</div>
-      <div class="hero-name">${s.name}</div>
-      <div class="hero-account"><i class="ti ti-at" style="font-size:12px;vertical-align:-1px;margin-right:3px;"></i>${s.account}</div>
-      <div class="hero-badges">
-        ${badge(aS, 'ACC: ' + aS.label)}
-        ${badge(bS, 'FAC: ' + bS.label)}
-      </div>
+function renderView(){
+  const s = data[selected];
+  const total = totalActions(s);
+  const debt = Math.max(CURRENT_EXPECTED-total,0);
+  const diff = total-CURRENT_EXPECTED;
+  const st = status(total,CURRENT_EXPECTED);
+  const billDebt = Math.max(s.billingGoal-s.billed,0);
+  const billSt = status(s.billed,s.billingGoal);
+
+  document.getElementById("view").innerHTML = `
+    <div class="card">
+      <h2>${s.alias} — ${s.name}</h2>
+      <div class="sub">Cuenta: ${s.account}</div>
     </div>
 
-    <div class="section-title">semáforos</div>
-    ${semBlock('Acciones del mes', aRate, s.actions, MONTH_GOAL, aDebt + ' acciones', aS)}
-    ${semBlock('Facturación', bRate, money(s.billed), money(s.billingGoal), money(bDebt), bS)}
-
-    <div class="section-title">detalle acciones</div>
-    <div class="grid2">
-      <div class="mcard"><div class="mcard-label">TOTAL ACC.</div><div class="mcard-val" style="color:#00e5ff;">${s.actions}</div><div class="mcard-note">Meta: ${MONTH_GOAL}</div></div>
-      <div class="mcard"><div class="mcard-label">DEUDA ACC.</div><div class="mcard-val" style="color:${aS.tc};">${aDebt}</div><div class="mcard-note">${pct(Math.max(100-aRate,0))} pendiente</div></div>
-    </div>
-    <div class="grid2">
-      <div class="mcard"><div class="mcard-label">CUMPL. ACC.</div><div class="mcard-val">${pct(aRate)}</div><div class="bar-track"><div class="bar-fill ${aS.bar}" style="width:${Math.min(aRate,100)}%;"></div></div></div>
-      <div class="mcard"><div class="mcard-label">META DIARIA</div><div class="mcard-val" style="color:#b388ff;">100</div><div class="mcard-note">12 días hábiles</div></div>
+    <div class="grid">
+      <div class="card"><div class="label">Total acciones</div><div class="value">${total}</div></div>
+      <div class="card"><div class="label">Debería tener</div><div class="value">${CURRENT_EXPECTED}</div></div>
+      <div class="card"><div class="label">Diferencia</div><div class="value">${diff}</div></div>
+      <div class="card"><div class="label">Estado acciones</div><div class="value"><span class="pill ${st[1]}">${st[0]}</span></div></div>
     </div>
 
-    <div class="section-title">detalle facturación</div>
-    <div class="stat-row"><span class="stat-row-label">Meta</span><span class="stat-row-val" style="color:#00e5ff;">${money(s.billingGoal)}</span></div>
-    <div class="stat-row"><span class="stat-row-label">Facturado</span><span class="stat-row-val" style="color:#00e676;">${money(s.billed)}</span></div>
-    <div class="stat-row"><span class="stat-row-label">Pendiente</span><span class="stat-row-val" style="color:${bS.tc};">${money(bDebt)}</span></div>
-    <div class="stat-row"><span class="stat-row-label">Cumplimiento</span><span class="stat-row-val">${pct(bRate)}</span></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Semana</th>
+          <th>Acciones</th>
+          <th>Meta semana</th>
+          <th>Diferencia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Semana 1<br><small>1 al 5 junio</small></td><td>${s.actions.sem1}</td><td>500</td><td>${s.actions.sem1-500}</td></tr>
+        <tr><td>Semana 2<br><small>8 al 12 junio</small></td><td>${s.actions.sem2}</td><td>500</td><td>${s.actions.sem2-500}</td></tr>
+        <tr><td>Semana 3<br><small>15 al 19 junio</small></td><td>${s.actions.sem3}</td><td>500</td><td>${s.actions.sem3-500}</td></tr>
+        <tr><td>Semana 4<br><small>22 al 26 junio</small></td><td>${s.actions.sem4}</td><td>500</td><td>${s.actions.sem4-500}</td></tr>
+        <tr><td>Semana 5<br><small>29 al 30 junio</small></td><td>${s.actions.sem5}</td><td>200</td><td>${s.actions.sem5-200}</td></tr>
+      </tbody>
+    </table>
+
+    <div class="grid" style="margin-top:14px">
+      <div class="card"><div class="label">Facturado</div><div class="value">${money(s.billed)}</div></div>
+      <div class="card"><div class="label">Meta facturación</div><div class="value">${money(s.billingGoal)}</div></div>
+      <div class="card"><div class="label">Saldo pendiente</div><div class="value">${money(billDebt)}</div></div>
+      <div class="card"><div class="label">Estado facturación</div><div class="value"><span class="pill ${billSt[1]}">${billSt[0]}</span></div></div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Indicador</th>
+          <th>Actual</th>
+          <th>Meta</th>
+          <th>Cumplimiento</th>
+          <th>Debe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Acciones al 05/06</td><td>${total}</td><td>${CURRENT_EXPECTED}</td><td>${pct(total,CURRENT_EXPECTED)}</td><td>${debt}</td></tr>
+        <tr><td>Facturación</td><td>${money(s.billed)}</td><td>${money(s.billingGoal)}</td><td>${pct(s.billed,s.billingGoal)}</td><td>${money(billDebt)}</td></tr>
+      </tbody>
+    </table>
   `;
 
-  document.getElementById('jsonEditor').value = JSON.stringify(sellers, null, 2);
+  document.getElementById("editor").value = JSON.stringify(data,null,2);
 }
 
-function sel(i){ cur = i; render(); }
-
-function toggleAdmin(){
-  document.getElementById('adminPanel').classList.toggle('open');
+function selectSeller(i){
+  selected=i;
+  render();
 }
 
-function saveAdmin(){
-  try {
-    sellers = JSON.parse(document.getElementById('jsonEditor').value);
-    saveLocal();
-    cur = 0;
+function saveData(){
+  try{
+    data = JSON.parse(document.getElementById("editor").value);
+    localStorage.setItem("hyenas_junio_2026",JSON.stringify(data));
+    selected=0;
     render();
-    alert('Datos guardados correctamente.');
-  } catch(e) {
-    alert('Error en el JSON. Revisá comas, llaves y comillas.');
+    alert("Datos guardados");
+  }catch(e){
+    alert("JSON inválido");
   }
 }
 
 function resetData(){
-  if(!confirm('Restaurar datos base?')) return;
-  sellers = BASE_DATA;
-  saveLocal();
-  cur = 0;
+  localStorage.removeItem("hyenas_junio_2026");
+  data = BASE;
+  selected=0;
   render();
 }
 
-function downloadBackup(){
-  const blob = new Blob([JSON.stringify(sellers, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'hyenas-backup.json'; a.click();
-  URL.revokeObjectURL(url);
+function render(){
+  renderTabs();
+  renderView();
 }
 
 render();
